@@ -4,7 +4,7 @@ import { carService } from "../services/car.service.js"
 const { useState, useEffect } = React
 const { useNavigate, useParams, Link } = ReactRouterDOM
 
-export function CarEdit() {
+export function BookEdit() {
 
     const [carToEdit, setCarToEdit] = useState(carService.getEmptyCar())
     const [isLoading, setIsLoading] = useState(false)

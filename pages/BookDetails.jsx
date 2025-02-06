@@ -3,7 +3,7 @@ import { carService } from "../services/car.service.js"
 const { useState, useEffect } = React
 const { useParams, useNavigate, Link } = ReactRouterDOM
 
-export function CarDetails() {
+export function BookDetails() {
 
     const [car, setCar] = useState(null)
     const params = useParams()

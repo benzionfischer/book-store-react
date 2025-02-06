@@ -7,7 +7,7 @@ import { CarList } from "../cmps/CarList.jsx"
 import { carService } from "../services/car.service.js"
 
 
-export function CarIndex() {
+export function BookIndex() {
 
     const [cars, setCars] = useState(null)
     const [filterBy, setFilterBy] = useState(carService.getDefaultFilter())

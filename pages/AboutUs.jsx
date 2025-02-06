@@ -1,7 +1,7 @@
 const { Link, Outlet } = ReactRouterDOM
 
 
-export function About() {
+export function AboutUs() {
     return (
         <section className="about">
 
