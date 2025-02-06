@@ -1,4 +1,4 @@
-import { carService } from "../services/car.service.js"
+import { carService } from "../services/book.service.js"
 
 const { useState, useEffect } = React
 const { useParams, useNavigate, Link } = ReactRouterDOM

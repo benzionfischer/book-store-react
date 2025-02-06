@@ -2,35 +2,35 @@
 const { useEffect, useState } = React
 const { Link } = ReactRouterDOM
 
-import { CarFilter } from "../cmps/CarFilter.jsx"
-import { CarList } from "../cmps/CarList.jsx"
-import { carService } from "../services/car.service.js"
+import { BookFilter } from "../cmps/BookFilter.jsx"
+import { BookList } from "../cmps/BookList.jsx"
+import { bookService } from "../services/book.service.js"
 
 
 export function BookIndex() {
 
-    const [cars, setCars] = useState(null)
-    const [filterBy, setFilterBy] = useState(carService.getDefaultFilter())
+    const [books, setBooks] = useState(null)
+    const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
 
     useEffect(() => {
-        loadCars()
+        loadBooks()
     }, [filterBy])
 
-    function loadCars() {
-        carService.query(filterBy)
-            .then(setCars)
+    function loadBooks() {
+        bookService.query(filterBy)
+            .then(setBooks)
             .catch(err => {
-                console.log('Cannot get cars:', err)
+                console.log('Cannot get books:', err)
             })
     }
 
-    function onRemoveCar(carId) {
-        carService.remove(carId)
+    function onRemoveBook(bookId) {
+        bookService.remove(bookId)
             .then(() => {
-                setCars(cars => cars.filter(car => car.id !== carId))
+                setBooks(books => books.filter(book => book.id !== bookId))
             })
             .catch(err => {
-                console.log('Cannot remove car:', err)
+                console.log('Cannot remove book:', err)
             })
     }
 
@@ -39,14 +39,14 @@ export function BookIndex() {
         setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
     }
 
-    if (!cars) return <div className="loader">Loading...</div>
+    if (!books) return <div className="loader">Loading...</div>
     return (
         <section className="car-index">
-            <CarFilter onSetFilter={onSetFilter} filterBy={filterBy} />
-            <Link to="/car/edit">Add Car</Link>
-            <CarList
-                cars={cars}
-                onRemoveCar={onRemoveCar}
+            <BookFilter onSetFilter={onSetFilter} filterBy={filterBy} />
+            <Link to="/book/edit">Add Book</Link>
+            <BookList
+                books={books}
+                onRemoveBook={onRemoveBook}
             />
         </section>
     )

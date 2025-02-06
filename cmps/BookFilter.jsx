@@ -1,9 +1,9 @@
-import { carService } from "../services/car.service.js"
+import { bookService } from "../services/book.service.js"
 
 const { useState, useEffect } = React
 
 
-export function CarFilter({ filterBy, onSetFilter }) {
+export function BookFilter({ filterBy, onSetFilter }) {
 
     const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
 
@@ -44,7 +44,7 @@ export function CarFilter({ filterBy, onSetFilter }) {
     const { txt, minSpeed } = filterByToEdit
     return (
         <section className="car-filter">
-            <h2>Filter Our Cars</h2>
+            <h2>Filter Our Books</h2>
             <form>
                 <label htmlFor="txt">Vendor</label>
                 <input onChange={handleChange} value={txt} type="text" name="txt" id="txt" />
