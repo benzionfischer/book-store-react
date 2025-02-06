@@ -1,41 +1,41 @@
 
-import { carService } from "../services/book.service.js"
+import { bookService } from "../services/book.service.js"
 
 const { useState, useEffect } = React
 const { useNavigate, useParams, Link } = ReactRouterDOM
 
 export function BookEdit() {
 
-    const [carToEdit, setCarToEdit] = useState(carService.getEmptyCar())
+    const [bookToEdit, setBookToEdit] = useState(bookService.getEmptyBook())
     const [isLoading, setIsLoading] = useState(false)
 
     const navigate = useNavigate()
-    const { carId } = useParams()
+    const { bookId } = useParams()
 
     useEffect(() => {
-        if (carId) loadCar()
-    }, [carId])
+        if (bookId) loadBook()
+    }, [bookId])
 
-    function loadCar() {
+    function loadBook() {
         setIsLoading(true)
-        carService.get(carId)
-            .then(setCarToEdit)
+        bookService.get(bookId)
+            .then(setBookToEdit)
             .catch(err => {
-                console.log('Cannot load car:', err)
+                console.log('Cannot load book:', err)
             })
             .finally(() => setIsLoading(false))
     }
 
-    function onSaveCar(ev) {
+    function onSaveBook(ev) {
         ev.preventDefault()
-        carService.save(carToEdit)
-            .then(carToSave => {
-                console.log(`Car (${carToSave.id}) Saved!`)
+        bookService.save(bookToEdit)
+            .then(bookToSave => {
+                console.log(`Book (${bookToSave.id}) Saved!`)
             })
             .catch(err => {
-                console.log('Cannot save car:', err)
+                console.log('Cannot save book:', err)
             })
-            .finally(() => navigate('/car'))
+            .finally(() => navigate('/book'))
     }
 
 
@@ -50,16 +50,16 @@ export function BookEdit() {
                 value = target.checked
                 break
         }
-        setCarToEdit((prevCar) => ({ ...prevCar, [field]: value }))
+        setBookToEdit((prevBook) => ({ ...prevBook, [field]: value }))
     }
 
 
-    const { vendor, speed } = carToEdit
+    const { vendor, speed } = bookToEdit
     const loadingClass = isLoading ? 'loading' : ''
     return (
         <section className={`car-edit ${loadingClass}`}>
-            <h1>{carId ? 'Edit' : 'Add'} Car</h1>
-            <form onSubmit={onSaveCar}>
+            <h1>{bookId ? 'Edit' : 'Add'} Book</h1>
+            <form onSubmit={onSaveBook}>
                 <label htmlFor="vendor">Vendor</label>
                 <input value={vendor} onChange={handleChange} type="text" name="vendor" id="vendor" />
 
@@ -67,7 +67,7 @@ export function BookEdit() {
                 <input value={speed} onChange={handleChange} type="number" name="speed" id="speed" />
                 <section className="btns flex">
                     <button>Save</button>
-                    <button type="button" className="back-btn" ><Link to="/car">Back</Link></button>
+                    <button type="button" className="back-btn" ><Link to="/book">Back</Link></button>
                 </section>
             </form>
         </section>

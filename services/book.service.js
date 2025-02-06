@@ -29,7 +29,7 @@ function query(filterBy = {}) {
 
 function get(bookId) {
     return storageService.get(BOOK_KEY, bookId)
-        .then(_setNextPrevCarId)
+        .then(_setNextPrevBookId)
 }
 
 function remove(bookId) {

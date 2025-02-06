@@ -28,8 +28,8 @@ export function App() {
                             <Route path="/about/vision" element={<Vision />} />
                         </Route>
                         <Route path="/book" element={<BookIndex />} />
-                        <Route path="/book/:carId" element={<BookDetails />} />
-                        <Route path="/book/edit/:carId" element={<BookEdit />} />
+                        <Route path="/book/:bookId" element={<BookDetails />} />
+                        <Route path="/book/edit/:bookId" element={<BookEdit />} />
                         <Route path="/book/edit" element={<BookEdit />} />
 
                         <Route path="*" element={<NotFound />} />
