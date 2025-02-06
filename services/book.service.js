@@ -16,13 +16,13 @@ export const bookService = {
 function query(filterBy = {}) {
     return storageService.query(BOOK_KEY)
         .then(books => {
-            if (filterBy.txt) {
-                const regExp = new RegExp(filterBy.txt, 'i')
-                books = books.filter(book => regExp.test(book.vendor))
+            if (filterBy.title) {
+                const regExp = new RegExp(filterBy.title, 'i')
+                books = books.filter(book => regExp.test(book.title))
             }
-            if (filterBy.minSpeed) {
-                books = books.filter(book => book.speed >= filterBy.minSpeed)
-            }
+            // if (filterBy.minSpeed) {
+            //     books = books.filter(book => book.speed >= filterBy.minSpeed)
+            // }
             return books
         })
 }
@@ -44,13 +44,13 @@ function save(book) {
     }
 }
 
-function getEmptyBook(vendor = '', speed = '') {
-    return { vendor, speed }
+function getEmptyBook(title = '', listPrice = {}) {
+    return { title, listPrice }
 }
 
 
 function getDefaultFilter() {
-    return { txt: '', minSpeed: '' }
+    return { txt: '', title: '' }
 }
 
 
@@ -69,17 +69,28 @@ function _createBooks() {
     let books = loadFromStorage(BOOK_KEY)
     if (!books || !books.length) {
         books = [
-            _createBook('audu', 300),
-            _createBook('fiak', 120),
-            _createBook('subali', 50),
-            _createBook('mitsu', 150)
+            _createBook('Lord of the ring', {
+                amount: 100,
+                currencyCode: "EUR",
+                isOnSale: false
+            }),
+            _createBook('King Lion', {
+                amount: 150,
+                currencyCode: "US",
+                isOnSale: true
+            }),
+            _createBook('Bufor', {
+                amount: 200,
+                currencyCode: "EUR",
+                isOnSale: false
+            }),
         ]
         saveToStorage(BOOK_KEY, books)
     }
 }
 
-function _createBook(vendor, speed = 250) {
-    const book = getEmptyBook(vendor, speed)
+function _createBook(title, listPrice) {
+    const book = getEmptyBook(title, listPrice)
     book.id = makeId()
     return book
 }

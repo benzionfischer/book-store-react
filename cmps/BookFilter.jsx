@@ -41,16 +41,20 @@ export function BookFilter({ filterBy, onSetFilter }) {
     //     setFilterByToEdit(prevFilter => ({ ...prevFilter, minSpeed: value }))
     // }
 
-    const { txt, minSpeed } = filterByToEdit
+    const { txt, title, minSpeed } = filterByToEdit
     return (
         <section className="car-filter">
             <h2>Filter Our Books</h2>
             <form>
-                <label htmlFor="txt">Vendor</label>
-                <input onChange={handleChange} value={txt} type="text" name="txt" id="txt" />
+                <label htmlFor="title">Title</label>
+                <input onChange={handleChange} value={title} type="text" name="title" id="title" />
+
+                {/* <label htmlFor="txt">Title</label>
+                <input onChange={handleChange} value={txt} type="text" name="txt" id="txt" /> */}
+{/* 
 
                 <label htmlFor="minSpeed">Min Speed</label>
-                <input onChange={handleChange} value={minSpeed || ''} type="number" name="minSpeed" id="minSpeed" />
+                <input onChange={handleChange} value={minSpeed || ''} type="number" name="minSpeed" id="minSpeed" /> */}
 
                 <button>Submit</button>
             </form>
