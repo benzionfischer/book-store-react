@@ -49,9 +49,6 @@ export function BookFilter({ filterBy, onSetFilter }) {
                 <label htmlFor="title">Title</label>
                 <input onChange={handleChange} value={title} type="text" name="title" id="title" />
 
-                {/* <label htmlFor="txt">Title</label>
-                <input onChange={handleChange} value={txt} type="text" name="txt" id="txt" /> */}
-
                 <label htmlFor="minPrice">Min Price</label>
                 <input onChange={handleChange} value={minPrice || ''} type="number" name="minPrice" id="minPrice" /> 
 
