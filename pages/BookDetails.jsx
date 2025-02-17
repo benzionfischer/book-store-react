@@ -1,5 +1,7 @@
 import { bookService } from "../services/book.service.js"
+import { makeId } from "../services/util.service.js"
 import { AddReview } from "../cmps/AddReview.jsx"
+import {BookReviewList} from "../cmps/BookReviewList.jsx"
 
 
 const { useState, useEffect } = React
@@ -51,32 +53,68 @@ export function BookDetails() {
     }
       
     function onSaveReview(review) {
-        const bookToSave = {
-            ...prevBook,
-            reviews: [...prevBook.reviews, newReview] // Add new review to the array
-        }
-        setBook((prevBook) => ({
-            ...prevBook,
-            reviews: [...prevBook.reviews, newReview] // Add new review to the array
-        }));
-
-        bookService.save(bookToSave)
-            .then(bookToSave => {
-                console.log(`Book (${bookToSave.id}) Saved!`)
-                showSuccessMsg(`Book (${bookToSave.id}) Saved!`)
-            })
-            .catch(err => {
-                console.log('Cannot save book:', err)
-                showErrorMsg('Cannot save book:', err)
-            })
-            .finally(() => navigate('/book'))
+        review.id = makeId();
+        console.log("On save review:", review);
+    
+        setBook((prevBook) => {
+            const updatedBook = {
+                ...prevBook,
+                reviews: [...prevBook.reviews, review] // Use `review` instead of `newReview`
+            };
+    
+            // Save the updated book to the backend
+            bookService.save(updatedBook)
+                .then(savedBook => {
+                    console.log(`Book (${savedBook.id}) Saved!`);
+                    showSuccessMsg(`Book (${savedBook.id}) Saved!`);
+                })
+                .catch(err => {
+                    console.error("Cannot save book:", err);
+                    showErrorMsg("Cannot save book:", err);
+                })
+                .finally(() => navigate(`/book/${book.id}`));
+    
+            return updatedBook; // Ensure React state is updated
+        });
     }
+    
+
+    function onRemoveReview(review) {
+        const reviewId = review.id
+        console.log("Removing review with id:", reviewId);
+    
+        // Update the state by filtering out the review with the given id
+        setBook((prevBook) => {
+            const updatedReviews = prevBook.reviews.filter(review => review.id !== reviewId);
+    
+            // Return the updated book with the modified reviews array
+            const updatedBook = {
+                ...prevBook,
+                reviews: updatedReviews
+            };
+    
+            // Optionally, save the updated book to a database or service here
+            bookService.save(updatedBook)
+                .then(savedBook => {
+                    console.log(`Book (${savedBook.id}) updated with removed review!`);
+                    showSuccessMsg(`Review removed from book (${savedBook.id})!`);
+                })
+                .catch(err => {
+                    console.error("Cannot update book:", err);
+                    showErrorMsg("Cannot update book:", err);
+                })
+                .finally(() => navigate(`/book/${book.id}`));
+    
+            return updatedBook; // Ensure React state is updated
+        });
+    }
+    
 
     if (!book) return <div className="loader">Loading...</div>
     var pageCountDisplay = pageCountToDisplay(book.pageCount)
     var vintageOrNew = publishedDateToVintageOrNew(book.publishedDate)
 
-    // console.log('car:', car)
+    if (!book) return (<div>Loading ...</div>)
     return (
         <section className="car-details">
             <h1>Book title: {book.title}</h1>
@@ -97,6 +135,7 @@ export function BookDetails() {
             <img src={`${book.thumbnail}`} alt="car-image" />
 
             <AddReview onSaveReview={onSaveReview} />
+            <BookReviewList reviews={book.reviews} onRemoveReview={onRemoveReview} />
 
             <button onClick={onBack}>Back</button>
             <section>

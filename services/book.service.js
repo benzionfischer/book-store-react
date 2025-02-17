@@ -101,14 +101,12 @@ function _booksGenerator() {
 function _createBooks() {
     let books = loadFromStorage(BOOK_KEY)
     if (!books || !books.length) {
-        console.log("bookssss")
         books = _booksGenerator()
-        console.log("... " + typeof books)
         saveToStorage(BOOK_KEY, books)
     }
 }
 
-function _createBook(book) {
-    book.id = makeId()
-    return book
-}
+// function _createBook(book) {
+//     book.id = makeId()
+//     return book
+// }
