@@ -1,4 +1,6 @@
 import { bookService } from "../services/book.service.js"
+import { AddReview } from "../cmps/AddReview.jsx"
+
 
 const { useState, useEffect } = React
 const { useParams, useNavigate, Link } = ReactRouterDOM
@@ -48,6 +50,27 @@ export function BookDetails() {
         return yearsPassed > 10 ? "Vintage" : "New";
     }
       
+    function onSaveReview(review) {
+        const bookToSave = {
+            ...prevBook,
+            reviews: [...prevBook.reviews, newReview] // Add new review to the array
+        }
+        setBook((prevBook) => ({
+            ...prevBook,
+            reviews: [...prevBook.reviews, newReview] // Add new review to the array
+        }));
+
+        bookService.save(bookToSave)
+            .then(bookToSave => {
+                console.log(`Book (${bookToSave.id}) Saved!`)
+                showSuccessMsg(`Book (${bookToSave.id}) Saved!`)
+            })
+            .catch(err => {
+                console.log('Cannot save book:', err)
+                showErrorMsg('Cannot save book:', err)
+            })
+            .finally(() => navigate('/book'))
+    }
 
     if (!book) return <div className="loader">Loading...</div>
     var pageCountDisplay = pageCountToDisplay(book.pageCount)
@@ -72,6 +95,9 @@ export function BookDetails() {
 
 
             <img src={`${book.thumbnail}`} alt="car-image" />
+
+            <AddReview onSaveReview={onSaveReview} />
+
             <button onClick={onBack}>Back</button>
             <section>
                 <button ><Link to={`/book/${book.prevBookId}`}>Prev Book</Link></button>

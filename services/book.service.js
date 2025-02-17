@@ -89,6 +89,7 @@ function _booksGenerator() {
         currencyCode: "EUR",
         isOnSale: Math.random() > 0.7,
       },
+      reviews: []
     };
 
     books.push(book);
