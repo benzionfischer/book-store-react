@@ -23,7 +23,7 @@ export function BookAdd() {
         if (!txt) return;
         console.log(`Search in google activated: ${txt}`)
 
-        const API_KEY = "AIzaSyAqvLZRvyozz0_sABjmma6AAC_2B9jHLUc"; // Replace with your API key
+        const API_KEY = "GOOGLE_BOOK_API_KEY"; // Replace with your API key
         const url = `https://www.googleapis.com/books/v1/volumes?q=${txt}&key=${API_KEY}`;
 
         try {
