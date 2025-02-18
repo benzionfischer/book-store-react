@@ -11,6 +11,7 @@ export const bookService = {
     save,
     getEmptyBook,
     getDefaultFilter,
+    addGoogleBook
 }
 
 function query(filterBy = {}) {
@@ -45,6 +46,29 @@ function save(book) {
     } else {
         return storageService.post(BOOK_KEY, book)
     }
+}
+
+function addGoogleBook(gBook) {
+    const book = {
+        // id: utilService.makeId(),
+        title: "From ggl: " + gBook.volumeInfo.title,
+        subtitle: utilService.makeLorem(4),
+        authors: gBook.volumeInfo.authors,
+        publishedDate: gBook.volumeInfo.publishedDate,
+        description: gBook.volumeInfo.description,
+        pageCount: gBook.volumeInfo.pageCount,
+        categories: gBook.volumeInfo.categories,
+        thumbnail: gBook.volumeInfo.imageLinks.thumbnail,
+        language: gBook.language,
+        listPrice: {
+          amount: utilService.getRandomIntInclusive(80, 500),
+          currencyCode: "EUR",
+          isOnSale: Math.random() > 0.7,
+        },
+        reviews: []
+      };
+
+      save(book);
 }
 
 function getEmptyBook(title = '', listPrice = {}) {
